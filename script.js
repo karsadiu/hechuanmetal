@@ -1,1 +1,14 @@
-const menuBtn=document.querySelector('.menu-btn');const nav=document.querySelector('.nav');menuBtn?.addEventListener('click',()=>nav.classList.toggle('open'));document.querySelectorAll('.nav a').forEach(a=>a.addEventListener('click',()=>nav.classList.remove('open')));const io=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('show')})},{threshold:.12});document.querySelectorAll('.reveal').forEach(el=>io.observe(el));const filters=document.querySelectorAll('.filter button');const cards=document.querySelectorAll('.project-card');filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(b=>b.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;cards.forEach(c=>{c.style.display=(f==='all'||c.dataset.cat===f)?'block':'none';});}));const lb=document.querySelector('.lightbox');const lbImg=lb.querySelector('img');document.querySelectorAll('.project-card img').forEach(img=>img.addEventListener('click',()=>{lbImg.src=img.src;lbImg.alt=img.alt;lb.classList.add('open');lb.setAttribute('aria-hidden','false')}));lb.querySelector('button').addEventListener('click',()=>{lb.classList.remove('open');lb.setAttribute('aria-hidden','true')});lb.addEventListener('click',e=>{if(e.target===lb)lb.querySelector('button').click()});
+
+const buttons=document.querySelectorAll('[data-filter]');
+const items=document.querySelectorAll('.item');
+function filter(cat){
+ document.querySelectorAll('.filters button').forEach(b=>b.classList.toggle('active',b.dataset.filter===cat));
+ items.forEach(it=>it.style.display=(cat==='all'||it.dataset.cat===cat)?'block':'none');
+ document.getElementById('projects')?.scrollIntoView({behavior:'smooth'});
+}
+buttons.forEach(btn=>btn.addEventListener('click',e=>{e.preventDefault();filter(btn.dataset.filter)}));
+const light=document.getElementById('lightbox');const lightImg=light.querySelector('img');
+items.forEach(it=>it.addEventListener('click',()=>{lightImg.src=it.querySelector('img').src;light.classList.add('show')}));
+light.querySelector('button').onclick=()=>light.classList.remove('show');
+light.addEventListener('click',e=>{if(e.target===light)light.classList.remove('show')});
+document.getElementById('topBtn').onclick=()=>scrollTo({top:0,behavior:'smooth'});
