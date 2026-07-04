@@ -1,14 +1,4 @@
 
-const buttons=document.querySelectorAll('[data-filter]');
-const items=document.querySelectorAll('.item');
-function filter(cat){
- document.querySelectorAll('.filters button').forEach(b=>b.classList.toggle('active',b.dataset.filter===cat));
- items.forEach(it=>it.style.display=(cat==='all'||it.dataset.cat===cat)?'block':'none');
- document.getElementById('projects')?.scrollIntoView({behavior:'smooth'});
-}
-buttons.forEach(btn=>btn.addEventListener('click',e=>{e.preventDefault();filter(btn.dataset.filter)}));
-const light=document.getElementById('lightbox');const lightImg=light.querySelector('img');
-items.forEach(it=>it.addEventListener('click',()=>{lightImg.src=it.querySelector('img').src;light.classList.add('show')}));
-light.querySelector('button').onclick=()=>light.classList.remove('show');
-light.addEventListener('click',e=>{if(e.target===light)light.classList.remove('show')});
-document.getElementById('topBtn').onclick=()=>scrollTo({top:0,behavior:'smooth'});
+const hero=document.querySelector('.hero-bg');let hi=0;function setHero(){if(window.HERO_IMAGES?.length){hero.style.backgroundImage=`url(images/${window.HERO_IMAGES[hi%window.HERO_IMAGES.length]})`;hi++}}setHero();setInterval(setHero,4200);
+const buttons=document.querySelectorAll('.filters button');const figs=document.querySelectorAll('.gallery figure');function applyFilter(f){buttons.forEach(b=>b.classList.toggle('active',b.dataset.filter===f));figs.forEach(x=>x.style.display=(f==='all'||x.dataset.cat===f)?'block':'none')}buttons.forEach(b=>b.onclick=()=>applyFilter(b.dataset.filter));document.querySelectorAll('.service-card').forEach(a=>a.onclick=(e)=>{const f=a.dataset.filter;setTimeout(()=>applyFilter(f),50)});
+const lb=document.getElementById('lightbox');const lbimg=lb.querySelector('img');figs.forEach(f=>f.onclick=()=>{lbimg.src=f.dataset.full;lb.classList.add('open')});lb.querySelector('button').onclick=()=>lb.classList.remove('open');lb.onclick=e=>{if(e.target===lb)lb.classList.remove('open')};document.getElementById('topBtn').onclick=()=>scrollTo({top:0,behavior:'smooth'});
