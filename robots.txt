@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hechuanmetal.pages.dev/sitemap.xml
